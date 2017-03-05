@@ -1,4 +1,4 @@
-var sports = ["football", "baseball", "tennis", "rugby", "golf", "boxing", "swimming", "vollyball", "gymnastics", "surfing", "soccer", "ping pong", "dodgeball", "ice hockey", "softball", "ice skating", "badminton", "handball", "field hockey", "rowing", "bowling", "snowboarding"];
+var sports = ["football", "baseball", "tennis", "rugby", "golf", "boxing", "swimming", "volleyball", "gymnastics", "surfing", "soccer", "ping pong", "dodgeball", "ice hockey", "softball", "ice skating", "badminton", "handball", "field hockey", "rowing", "bowling", "snowboarding"];
 
 function renderButtons() {
     //deleting sports buttons prior to adding new buttons
@@ -23,7 +23,7 @@ function displayGifs() {
     var clickedSport = $(this).attr("data-name");
     console.log(this);
     // Constructing a URL to search Giphy for the sport
-    var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + clickedSport + "&api_key=dc6zaTOxFJmzC&limit=10";
+    var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + clickedSport + "&api_key=dc6zaTOxFJmzC&limit=10";
     //Performing our AJAX GET request
     $.ajax({
             url: queryURL,
@@ -34,6 +34,23 @@ function displayGifs() {
             console.log(response);
             //Storing the data returned data from AJAX request
             var results = response.data;
+            // Looping through each result item
+            for (var i = 0; i < results.length; i++) {
+                // Creating and storing a div tag
+                var sportDiv = $("<div>");
+                // Creating a paragraph tag with the result item's rating
+                var p = $("<p>").text("Rating: " + results[i].rating);
+                // Creating and storing an image tag
+                var sportImage = $("<img>");
+                // Setting the src attribute of the image to a property pulled off the result item
+                sportImage.attr("src", results[i].images.fixed_height.url);
+                // Appending the paragraph and image tag to the animalDiv
+                sportDiv.append(p);
+                sportDiv.append(sportImage);
+                console.log(sportImage);
+                // Prependng the animalDiv to the HTML page in the "#gifs-appear-here" div
+                $("#gif-view").prepend(sportDiv);
+            }
         });
 }
 
